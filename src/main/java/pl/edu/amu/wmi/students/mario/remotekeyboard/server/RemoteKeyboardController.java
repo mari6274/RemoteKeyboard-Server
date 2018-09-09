@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
+import pl.edu.amu.wmi.students.mario.remotekeyboard.server.task.ServerState;
+import pl.edu.amu.wmi.students.mario.remotekeyboard.server.task.ServerTask;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -33,8 +35,8 @@ public class RemoteKeyboardController implements Initializable {
     private Button stopButton;
     @FXML
     private Spinner<Integer> portSpinner;
-    private ObjectProperty<SERVER_STATE> serverState = new SimpleObjectProperty<>(
-            SERVER_STATE.STOPPED);
+    private ObjectProperty<ServerState> serverState = new SimpleObjectProperty<>(
+            ServerState.STOPPED);
     private ServerTask serverTask;
 
     @Override
@@ -47,9 +49,9 @@ public class RemoteKeyboardController implements Initializable {
                     .collect(Collectors.toList());
             ipLabel.setText(String.join("\n", adresses));
             startButton.disableProperty().bind(Bindings.createBooleanBinding(
-                    () -> serverState.get() != SERVER_STATE.STOPPED, serverState));
+                    () -> serverState.get() != ServerState.STOPPED, serverState));
             stopButton.disableProperty().bind(Bindings.createBooleanBinding(
-                    () -> serverState.get() != SERVER_STATE.STARTED, serverState));
+                    () -> serverState.get() != ServerState.STARTED, serverState));
         } catch (UnknownHostException e) {
             ipLabel.setText(resources.getString("unknown"));
             gridPane.setDisable(true);
